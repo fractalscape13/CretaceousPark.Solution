@@ -1,0 +1,278 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Simple API about cretaceous period animals, to learn how to write OpenAPI Specifications and use custom endpoints.",
+    "version": "1.0.0",
+    "title": "Cretaceous Park"
+  },
+  "host": "localhost:5004",
+  "basePath": "/api",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/animals": {
+      "get": {
+        "summary": "Finds animals by query parameter",
+        "description": "species, gender, and name can be used to search for animals",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "species",
+            "in": "query",
+            "description": "species of animal to filter search by",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "gender of animal to filter search by",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of animal to filter search by",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list of animals",
+            "schema": {
+              "type": "array",
+              "items": {
+                "required": [
+                  "animalId",
+                  "name",
+                  "species",
+                  "age",
+                  "gender"
+                ],
+                "properties": {
+                  "animalId": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "species": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "integer"
+                  },
+                  "gender": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query value"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new animal to the cretaceous park",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "animal",
+            "description": "Animal object that needs to be added to the cretaceous park",
+            "required": true,
+            "schema": {
+              "required": [
+                "name",
+                "species",
+                "age",
+                "gender"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "species": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                },
+                "gender": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation; object added to database"
+          },
+          "400": {
+            "description": "Object could not be created"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/animals/{id}": {
+      "get": {
+        "summary": "Find animal by ID",
+        "description": "Returns a single animal",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the animal to return",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "required": [
+                "animalId",
+                "name",
+                "species",
+                "age",
+                "gender"
+              ],
+              "properties": {
+                "animalId": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "species": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                },
+                "gender": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Animal not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing animal",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id of the animal object to be updated",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Animal not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a animal",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of animal to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Animal not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Animal": {
+      "type": "object",
+      "required": [
+        "name",
+        "species",
+        "age",
+        "gender"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer"
+        },
+        "gender": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
